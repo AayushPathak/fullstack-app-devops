@@ -28,10 +28,7 @@ const pgClient = new Pool({
 
 pgClient.on('connect', () => {
   pgClient
-    .query('CREATE TABLE IF NOT EXISTS members (id INT, name TEXT, surname TEXT, email TEXT)')
-    .catch((err) => console.log(err));
-  pgClient
-    .query('INSERT INTO members (id, name, surname, email) VALUES (1, \'Aayush\', \'Pathak\', \'abc@xyz\')')
+    .query('CREATE TABLE IF NOT EXISTS members (id INT, firstname TEXT, lastname TEXT, email TEXT)')
     .catch((err) => console.log(err));
 });
 
