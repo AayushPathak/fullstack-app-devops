@@ -2,10 +2,14 @@ pipeline {
   agent { label: "default" }
   stages {
     stage('test'){
-      sh 'ls'
+      steps {
+        sh 'ls'
+      }
     }
     stage('deploy'){
-      sh 'ls'
+      steps {
+        sh 'ls'
+      }
     }
   }
 }
