@@ -4,7 +4,6 @@ pipeline {
   }
   agent {
     kubernetes {
-      label 'multi-crud-build'
       idleMinutes 5
       yamlFile 'buildPod.yaml'
     }
