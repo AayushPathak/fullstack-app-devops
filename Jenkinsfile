@@ -2,7 +2,14 @@ pipeline {
   environment {
     SHA = sh(returnStdout: true, script: "git rev-parse HEAD")
   }
-  agent any
+  agent {
+    kubernetes {
+      label 'multi-crud-build'
+      idleMinutes 5
+      yamlFile 'buildPod.yaml'
+      defaultContainer 'docker'
+    }
+  }
   stages {
     stage('test') {
       agent {
