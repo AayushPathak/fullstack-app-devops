@@ -7,7 +7,6 @@ pipeline {
       label 'multi-crud-build'
       idleMinutes 5
       yamlFile 'buildPod.yaml'
-      defaultContainer 'docker'
     }
   }
   stages {
