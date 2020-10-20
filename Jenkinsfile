@@ -12,31 +12,20 @@ pipeline {
   }
   stages {
     stage('test') {
-      agent {
-        dockerfile {
-          filename 'Dockerfile.dev'
-          dir 'client'
-          additionalBuildArgs '-t aayushpathak/react-test'
-          args '-e CI=true'
-        }
-      }
       steps {
-        sh 'npm test'
+        sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
+        sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
       }
     }
 
     stage('build-push-production-images') {
       steps {
-        script {
-          def frontEndProd = docker.build("aayushpathak/fullstack-client", "./client")
-          def serverProd = docker.build("aayushpathak/fullstack-server", "./server")
-          docker.withRegistry('', dockerhub-creds) {
-            frontEndProd.push('latest')
-            frontEndProd.push("${SHA}")
-            serverProd.push('latest')
-            serverProd.push("${SHA}")
-          }
-        }
+        sh 'docker build -t aayushpathak/fullstack-server:${SHA} -t aayushpathak/fullstack-server:latest ./server/Dockerfile'
+        sh 'docker build -t aayushpathak/fullstack-client:${SHA} -t aayushpathak/fullstack-client:latest ./client/Dockerfile'
+        sh 'docker push aayushpathak/fullstack-server:${SHA}'
+        sh 'docker push aayushpathak/fullstack-client:${SHA}'
+        sh 'docker push aayushpathak/fullstack-server:latest'
+        sh 'docker push aayushpathak/fullstack-client:latest'
       }
     }
 
