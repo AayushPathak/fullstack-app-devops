@@ -4,15 +4,13 @@ pipeline {
   }
   agent {
     kubernetes {
-      label 'slave'
-      idleMinutes 5
       yamlFile 'buildPod.yaml'
     }
   }
   stages {
     stage('test') {
       steps {
-        container('jnlp') {
+        container('docker') {
           sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
           sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
         }
@@ -21,7 +19,7 @@ pipeline {
 
     stage('build-push-production-images') {
       steps {
-        container('jnlp') {
+        container('docker') {
           sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
           sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
         }
@@ -35,7 +33,7 @@ pipeline {
       }
 
       steps {
-        container('jnlp') {
+        container('docker') {
           sh("rm -r -f /root/google-cloud-sdk")
           sh("curl https://sdk.cloud.google.com | bash > /dev/null;")
           sh("${GC_HOME}/gcloud components update kubectl")
