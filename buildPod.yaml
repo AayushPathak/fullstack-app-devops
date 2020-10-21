@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  label: pod-slave
+  label: cd-jenkins-jenkins-slave
 spec:
   containers:
     - name: jnlp
