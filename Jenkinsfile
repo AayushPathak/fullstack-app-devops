@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('test') {
       steps {
-        container('docker') {
+        container('jnlp') {
           sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
           sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
         }
@@ -20,7 +20,7 @@ pipeline {
 
     stage('build-push-production-images') {
       steps {
-        container('docker') {
+        container('jnlp') {
           sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
           sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
         }
@@ -34,7 +34,7 @@ pipeline {
       }
 
       steps {
-        container('docker') {
+        container('jnlp') {
           sh("rm -r -f /root/google-cloud-sdk")
           sh("curl https://sdk.cloud.google.com | bash > /dev/null;")
           sh("${GC_HOME}/gcloud components update kubectl")
