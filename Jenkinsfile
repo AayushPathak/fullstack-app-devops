@@ -18,10 +18,19 @@ pipeline {
     }
 
     stage('build-push-production-images') {
+      environment {
+        DOCKER_USERNAME = credentials('docker-username')
+        DOCKER_PASSWORD = credentials('docker-password')
+      }
       steps {
         container('docker') {
-          sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
-          sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
+          sh("echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin")
+          sh 'docker build -t aayushpathak/fullstack-server:latest -t aayushpathak/fullstack-server:${SHA} -f ./server/Dockerfile ./server'
+          sh 'docker build -t aayushpathak/fullstack-client:latest -t aayushpathak/fullstack-client:${SHA} -f ./client/Dockerfile ./client'
+          sh 'docker push aayushpathak/fullstack-server:latest'
+          sh 'docker push aayushpathak/fullstack-server:${SHA}'
+          sh 'docker push aayushpathak/fullstack-client:latest'
+          sh 'docker push aayushpathak/fullstack-client:${SHA}'
         }
       }
     }
