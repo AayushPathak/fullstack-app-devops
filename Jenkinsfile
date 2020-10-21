@@ -8,8 +8,8 @@ pipeline {
       yamlFile 'buildPod.yaml'
     }
   }
-  node(POD_LABEL) {
-    stages {
+  stages {
+    node(POD_LABEL){
       stage('test') {
         steps {
           container('jnlp') {
