@@ -4,6 +4,7 @@ pipeline {
   }
   agent {
     kubernetes {
+      label 'slave'
       idleMinutes 5
       yamlFile 'buildPod.yaml'
     }
