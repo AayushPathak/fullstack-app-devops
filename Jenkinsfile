@@ -12,7 +12,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker build -t aayushpathak/frontend-test -f ./client/Dockerfile.dev ./client'
-          sh 'docker run aayushpathak/frontend-test -e CI=true npm test'
+          sh 'docker run aayushpathak/frontend-test -e CI=true npm test -- --coverage'
         }
       }
     }
