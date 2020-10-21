@@ -42,7 +42,6 @@ pipeline {
 
       steps {
         container('jnlp') {
-          sh("rm -r -f /root/google-cloud-sdk")
           sh("curl https://sdk.cloud.google.com | bash > /dev/null;")
           sh("${GC_HOME}/gcloud components update kubectl")
           sh("${GC_HOME}/gcloud auth activate-service-account --key-file=${GC_KEY}")
