@@ -19,12 +19,11 @@ pipeline {
 
     stage('build-push-production-images') {
       environment {
-        DOCKER_USERNAME = credentials('docker-username')
-        DOCKER_PASSWORD = credentials('docker-password')
+        DOCKER_CREDENTIALS = credentials('docker-credentials')
       }
       steps {
         container('docker') {
-          sh("echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin")
+          sh("echo ${DOCKER_CREDENTIALS_PSW} | docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin")
           sh 'docker build -t aayushpathak/fullstack-server:latest -t aayushpathak/fullstack-server:${SHA} -f ./server/Dockerfile ./server'
           sh 'docker build -t aayushpathak/fullstack-client:latest -t aayushpathak/fullstack-client:${SHA} -f ./client/Dockerfile ./client'
           sh 'docker push aayushpathak/fullstack-server:latest'
