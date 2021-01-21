@@ -17,3 +17,5 @@ spec:
           image: aayushpathak/fullstack-client
           ports:
             - containerPort: 3000
+      nodeSelector:
+        app: web

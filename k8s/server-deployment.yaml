@@ -31,3 +31,5 @@ spec:
                   key: PGPASSWORD
             - name: PGPORT
               value: "5432"
+      nodeSelector:
+        app: db
